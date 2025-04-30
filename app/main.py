@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager  # Uncomment if you need to create tables on app start >>>
-from app.routes import (hotels)
+from app.routes import (hotels, rooms)
 from app.db import init_database
 
 @asynccontextmanager
@@ -27,3 +27,4 @@ app = FastAPI(
 )
 
 app.include_router(hotels.router)
+app.include_router(rooms.router)
