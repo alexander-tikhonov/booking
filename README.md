@@ -99,5 +99,7 @@ Content-Type: application/json
 docker-compose up --build
 
 Сгенерировать отчет о качестве кода:
+pip install pylint
+
 pylint app > pylint.txt
 
