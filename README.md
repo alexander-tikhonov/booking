@@ -92,7 +92,7 @@ Content-Type: application/json
 1) Скачать PyCharm Community Edition
 2) Скопировать URL репозитория и создать новый проект через Project From Version Control
 3) Установить Docker (https://docs.docker.com/desktop/setup/install/windows-install/)
-4) Установить Postman (Нужен для тестирования запросов к Web-сервису). 
+4) Установить Postman (Нужен для тестирования запросов к Web-сервису). (https://www.postman.com/downloads/)
 Примеры запросов лежат в папке doc, этот файл нужно импортировать в Postman
 
 Для сборки и запуска проекта использовать команду в консоли PyCharm:
@@ -103,3 +103,38 @@ pip install pylint
 
 pylint app > pylint.txt
 
+Бизнес логика:
+1) Рекомендация отелей на основе пользовательских предпочтений (цена, рейтинг, расстояние от центра).
+2) Пользователь указывает веса для параметров (например, price_weight=0.5, rating_weight=0.3, distance_weight=0.2).
+Для каждого отеля вычисляется рейтинговая оценка по формуле:
+```
+score = (price_weight * нормализованная_цена) + 
+        (rating_weight * рейтинг) + 
+        (distance_weight * нормализованное_расстояние)
+```
+3) Отели сортируются по убыванию score.
+
+### Авторизация
+На данный момент, чтобы вызвать метод REST-сервиса
+```
+create_hotel (POST /v1/hotels)
+```
+требуется авторизация. 
+Для этого нужно создать пользователя обратившись к 
+```
+/v1/auth/register
+```
+
+А потом залогиниться через 
+```
+/v1/auth/login
+```
+В ответе вернется токен, который нужно подставить в заголовок запроса для
+```
+create_hotel (POST /v1/hotels)
+```
+
+В Postman выбираем Headers -> KEY Authorization -> Value:
+```
+Bearer <Тут указать токен>
+```
