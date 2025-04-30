@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta, timezone
 import jwt
 from jwt.exceptions import InvalidTokenError
+from pydantic.v1.schema import schema
+
 from app.config import settings
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
@@ -8,7 +10,7 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlmodel import Session, select
 from app.db import get_session
-from app.schemas import task as schema_task
+from app.schemas import booking as schema_task
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")

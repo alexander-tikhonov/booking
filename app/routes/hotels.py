@@ -4,7 +4,10 @@ from app.db import get_session
 from ..api_docs import request_examples
 from ..schemas import booking as schema_hotel
 from typing import Annotated, List
-
+from ..auth.auth_handler import (
+    get_current_user
+)
+from ..schemas.booking import User
 from ..schemas.booking import RecommendationRequest, Hotel
 
 
@@ -17,7 +20,8 @@ def create_hotel(hotel: Annotated[
                         schema_hotel.HotelCreate,
                         request_examples.example_create_hotel
                 ],
-                session: Session = Depends(get_session)):
+                session: Session = Depends(get_session),
+                current_user: User = Depends(get_current_user)):
 
     new_hotel = schema_hotel.Hotel(
         name = hotel.name,

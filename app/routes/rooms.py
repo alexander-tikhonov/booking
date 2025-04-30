@@ -8,7 +8,7 @@ router = APIRouter(prefix="/v1/rooms", tags=["Управление комнат�
 
 @router.post("/", status_code=201, response_model=RoomRead)
 def create_room(room: RoomCreate, session: Session = Depends(get_session)):
-    hotel = session.get(Hotel, room.hotel_id)
+    hotel = session.get(Hotel, room.hotel)
     if not hotel:
         raise HTTPException(status_code=404, detail="Отель не найден")
 
@@ -25,7 +25,7 @@ def read_room(room_id: int, session: Session = Depends(get_session)):
     if not room:
         raise HTTPException(status_code=404, detail="Комната не найдена")
 
-    hotel = session.get(Hotel, room.hotel_id)
+    hotel = session.get(Hotel, room.hotel)
     return {**room.model_dump(), "hotel_name": hotel.name if hotel else None}
 
 

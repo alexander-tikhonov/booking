@@ -84,7 +84,7 @@ class Hotel(SQLModel, table=True):
 class RoomCreate(BaseModel):
     capacity: int = Field(..., gt=0, description="Вместимость комнаты (минимум 1)")
     price_per_night: Decimal = Field(..., gt=0, description="Цена за ночь (>0)")
-    hotel_id: int = Field(..., description="ID отеля")
+    hotel: int = Field(..., description="ID отеля")
 
 
 class RoomRead(RoomCreate):
@@ -122,8 +122,8 @@ class Booking(SQLModel, table=True):
     id: int = SQLField(default=None, nullable=False, primary_key=True)
     check_in: date
     check_out: date
-    user: int = SQLField(foreign_key="user.user_id")
-    room: int = SQLField(foreign_key="room.id")
+    user_id: int = SQLField(foreign_key="user.user_id")
+    room_id: int = SQLField(foreign_key="room.id")
 
 
 def validate_weight_range(value: float) -> float:
