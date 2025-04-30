@@ -89,9 +89,15 @@ Content-Type: application/json
 ```
 
 ##  Установка
+1) Скачать PyCharm Community Edition
+2) Скопировать URL репозитория и создать новый проект через Project From Version Control
+3) Установить Docker
+4) Установить Postman (Нужен для тестирования запросов к Web-сервису). 
+Примеры запросов лежат в папке doc, этот файл нужно импортировать в Postman
+
+Для сборки и запуска проекта использовать команду в консоли PyCharm:
 docker-compose up --build
 
 Сгенерировать отчет о качестве кода:
 pylint app > pylint.txt
 
-Для тестирования запросов необходимо установить Postman
