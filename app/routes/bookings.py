@@ -8,6 +8,9 @@ router = APIRouter(prefix="/v1/bookings", tags=["Управление брони
 
 @router.post("/", status_code=201, response_model=BookingRead)
 def create_booking(booking: BookingCreate, session: Session = Depends(get_session)):
+    """
+    Создать бронирование
+    """
     user = session.get(User, booking.user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
@@ -38,6 +41,9 @@ def create_booking(booking: BookingCreate, session: Session = Depends(get_sessio
 
 @router.get("/{booking_id}", response_model=BookingRead)
 def read_booking(booking_id: int, session: Session = Depends(get_session)):
+    """
+    Получить бронирование по ID
+    """
     booking = session.get(Booking, booking_id)
     if not booking:
         raise HTTPException(status_code=404, detail="Бронирование не найдено")
@@ -53,6 +59,9 @@ def read_booking(booking_id: int, session: Session = Depends(get_session)):
 
 @router.patch("/{booking_id}", response_model=BookingRead)
 def update_booking(booking_id: int, update_data: dict, session: Session = Depends(get_session)):
+    """
+    Обновить бронирование по ID
+    """
     booking = session.get(Booking, booking_id)
     if not booking:
         raise HTTPException(status_code=404, detail="Бронирование не найдено")
@@ -67,6 +76,9 @@ def update_booking(booking_id: int, update_data: dict, session: Session = Depend
 
 @router.delete("/{booking_id}", status_code=204)
 def delete_booking(booking_id: int, session: Session = Depends(get_session)):
+    """
+    Удалить бронирование по ID
+    """
     booking = session.get(Booking, booking_id)
     if not booking:
         raise HTTPException(status_code=404, detail="Бронирование не найдено")

@@ -8,6 +8,9 @@ router = APIRouter(prefix="/v1/rooms", tags=["Управление комнат�
 
 @router.post("/", status_code=201, response_model=RoomRead)
 def create_room(room: RoomCreate, session: Session = Depends(get_session)):
+    """
+    Создать комнату.
+    """
     hotel = session.get(Hotel, room.hotel)
     if not hotel:
         raise HTTPException(status_code=404, detail="Отель не найден")
@@ -21,6 +24,9 @@ def create_room(room: RoomCreate, session: Session = Depends(get_session)):
 
 @router.get("/{room_id}", response_model=RoomRead)
 def read_room(room_id: int, session: Session = Depends(get_session)):
+    """
+    Получить комнату по ID.
+    """
     room = session.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=404, detail="Комната не найдена")
@@ -31,6 +37,9 @@ def read_room(room_id: int, session: Session = Depends(get_session)):
 
 @router.patch("/{room_id}", response_model=RoomRead)
 def update_room(room_id: int, update_data: dict, session: Session = Depends(get_session)):
+    """
+    Обновить комнату по ID.
+    """
     room = session.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=404, detail="Комната не найдена")
@@ -45,6 +54,9 @@ def update_room(room_id: int, update_data: dict, session: Session = Depends(get_
 
 @router.delete("/{room_id}", status_code=204)
 def delete_room(room_id: int, session: Session = Depends(get_session)):
+    """
+    Удалить комнату по ID.
+    """
     room = session.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=404, detail="Комната не найдена")

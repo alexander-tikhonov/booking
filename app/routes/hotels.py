@@ -22,7 +22,9 @@ def create_hotel(hotel: Annotated[
                 ],
                 session: Session = Depends(get_session),
                 current_user: User = Depends(get_current_user)):
-
+    """
+    Создать отель. Требует авторизации
+    """
     new_hotel = schema_hotel.Hotel(
         name = hotel.name,
         location = hotel.location,
@@ -40,6 +42,9 @@ def create_hotel(hotel: Annotated[
 @router.get("/", status_code=status.HTTP_200_OK,
             response_model=List[schema_hotel.HotelRead])
 def read_hotels(session: Session = Depends(get_session)):
+    """
+    Получить список отелей
+    """
     hotels = session.exec(select(schema_hotel.Hotel)).all()
     if hotels is None or len(hotels) == 0:
         raise HTTPException(
@@ -51,6 +56,9 @@ def read_hotels(session: Session = Depends(get_session)):
 
 @router.get("/{hotel_id}", response_model=schema_hotel.HotelRead)
 def read_hotel_by_id(hotel_id: int, session: Session = Depends(get_session)):
+    """
+    Получить отель по ID
+    """
     hotel = session.get(Hotel, hotel_id)
     if hotel is None:
         raise HTTPException(
@@ -61,6 +69,9 @@ def read_hotel_by_id(hotel_id: int, session: Session = Depends(get_session)):
 
 @router.patch("/{hotel_id}", status_code=status.HTTP_200_OK, response_model=schema_hotel.HotelRead)
 def update_hotel_by_id(hotel_id: int, data_for_update: dict, session: Session = Depends(get_session)):
+    """
+    Обновить отель по ID
+    """
     db_hotel = session.get(schema_hotel.Hotel, hotel_id)
     if not db_hotel:
         raise HTTPException(
@@ -84,7 +95,10 @@ def update_hotel_by_id(hotel_id: int, data_for_update: dict, session: Session = 
     return db_hotel
 
 @router.delete("/{hotel_id}", status_code=status.HTTP_200_OK)
-def delete_task_by_id(hotel_id: int, session: Session = Depends(get_session)):
+def delete_hotel_by_id(hotel_id: int, session: Session = Depends(get_session)):
+    """
+    Удалить отель по ID
+    """
     db_hotel = session.get(schema_hotel.Hotel, hotel_id)
     if not db_hotel:
         raise HTTPException(
@@ -102,6 +116,10 @@ def get_hotel_recommendations(
                 request: RecommendationRequest,
                 session: Session = Depends(get_session)
 ):
+    """
+    Получить список рекомендованных отелей. Реализация бизнес логики.
+    В запросе получаем веса для каждого значения.
+    """
     hotels = session.exec(select(schema_hotel.Hotel)).all()
     if hotels is None or len(hotels) == 0:
         raise HTTPException(

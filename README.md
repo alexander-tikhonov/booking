@@ -90,3 +90,8 @@ Content-Type: application/json
 
 ##  Установка
 docker-compose up --build
+
+Сгенерировать отчет о качестве кода:
+pylint app > pylint.txt
+
+Для тестирования запросов необходимо установить Postman
